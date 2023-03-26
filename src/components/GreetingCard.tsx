@@ -11,7 +11,7 @@ interface GreetingCardProps {
 }
 
 export default function GreetingCard() {
-  const greeting = 'Morning';
+  const greeting = getGreeting();
   const mealtime = getMealtime(greeting);
   const { color, image } = getGreetingCard(greeting);
 
@@ -59,6 +59,11 @@ function getGreetingCard(greeting: string): GreetingCard {
       image: NoonNoBg,
     },
     {
+      title: "Evening",
+      color: "bg-[#F2994A]",
+      image: NoonNoBg,
+    },
+    {
       title: "Night",
       color: "bg-[#001633]",
       image: NightNoBg,
@@ -74,9 +79,12 @@ function getGreeting(): string {
 
   if (curHr < 12) {
     return "Morning";
-  } else if (curHr < 18) {
+  } else if (curHr < 14) {
     return "Afternoon";
-  } else {
+  } else if(curHr < 18) {
+    return "Evening";
+  }
+   else {
     return "Night";
   }
 }

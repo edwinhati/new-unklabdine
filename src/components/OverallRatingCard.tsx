@@ -4,7 +4,7 @@ import Rating from "./Rating";
 import { useState } from "react";
 
 export default function OverallRatingCard() {
-  const [value, setValue] = useState(3.5);
+  const [value, setValue] = useState(1.5);
   return (
     <div className="bg-white rounded-xl px-2 pb-4">
       <div className="text-center mt-4">
@@ -36,14 +36,14 @@ export default function OverallRatingCard() {
             value={value}
             setRating='readonly'
           />
-          <span className="text-[9px]">
+          <span className="text-[9px] mt-1">
             {/* {length > 1
                     ? `based on ${length} student ratings`
                     : `based on ${length} student rating`} */}
             based on 5 student ratings
           </span>
         </div>
-        <div className="flex-1 flex flex-col justify-center w-full">
+        <div className="flex-1 flex flex-col justify-center w-full mr-[10px]">
           <div className="flex justify-center items-center w-full">
             <span className="text-[11px] font-medium mr-2">5</span>
             <div className="w-full">

@@ -48,12 +48,12 @@ export default function TabBar() {
         active={router.pathname === "/rating"}
         hasphoto={undefined}
       />
-      {/* <NavItem
+      <NavItem
         icon="fa-solid fa-qrcode"
         label="Scan"
         active={router.pathname === "/scan"}
         hasphoto={undefined}
-      /> */}
+      />
       <NavItem
         icon="fa-solid fa-calendar-alt"
         label="Schedule"

@@ -1,14 +1,15 @@
+import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import QRCode from "react-qr-code";
+import avatar from "../assets/images/avatar.png";
+import udineic from "@/assets/icons/udineic.svg";
+import logout from "@/assets/icons/logout.svg";
 import Header from "@/components/Header";
 import Navigation from "@/components/Navigation";
-import Image from "next/image";
-import avatar from "../assets/images/avatar.png";
-import { useState } from "react";
-import QRCode from "react-qr-code";
-import Link from "next/link";
-import logout from "@/assets/icons/logout.svg";
-import udineic from "@/assets/icons/udineic.svg";
 
-export default function HomePage() {
+export default function profilePage() {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [loading, setLoading] = useState(true);
   setTimeout(() => {
     setLoading(false);

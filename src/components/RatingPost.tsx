@@ -16,15 +16,11 @@ export default function RatingPost(props: any) {
 
       <div className="mt-2 flex justify-between items-center">
         <div className="flex justify-center items-center gap-2">
-          <div
-            className="w-[50px] h-[50px] rounded-full bg-udine-1"
-          >
+          <div className="w-[50px] h-[50px] rounded-full bg-udine-1">
             <Image src={avatar} alt="" className="rounded-full" />
           </div>
           <div className="flex flex-col">
-            <span className="text-[15x] font-semibold">
-              {name}
-            </span>
+            <span className="text-[15x] font-semibold">{name}</span>
             <span className="text-[9px]">Lunch • 1d</span>
           </div>
         </div>

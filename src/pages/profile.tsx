@@ -42,7 +42,7 @@ export default function profilePage() {
                 <div className="w-[200px] h-[200px] bg-white">
                   {loading ? (
                     <div className="flex justify-center items-center w-[200px] h-[200px]">
-                      \{" "}
+                      {" "}
                       <i className="fa-solid fa-spinner text-3xl text-udine-1 animate-spin" />
                     </div>
                   ) : (

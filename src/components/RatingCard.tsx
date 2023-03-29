@@ -3,13 +3,14 @@ import ProgressBar from "@ramonak/react-progress-bar";
 import Rating from "./Rating";
 import { useState } from "react";
 
-export default function OverallRatingCard() {
+export default function RatingCard(props: any) {
   const [value, setValue] = useState(1.5);
+  const { title, subtitle, details } = props;
   return (
     <div className="bg-white rounded-xl px-2 pb-4">
       <div className="text-center mt-4">
-        <h2 className="font-semibold text-[13px] leading-[0px]">Weekly</h2>
-        <span className="text-[11px] leading-[0px]">Overall Rating</span>
+        <h2 className="font-semibold text-[13px] leading-[0px]">{title}</h2>
+        {subtitle ? (<span className="text-[11px] leading-[0px]">{subtitle}</span>): (<br />)}
       </div>
       {/* {loading ? (
             <div className="flex flex-col justify-start items-center h-full mt-3">
@@ -25,7 +26,8 @@ export default function OverallRatingCard() {
       <div className="flex gap-2">
         <div className="flex-1 flex flex-col justify-center items-center">
           <span className="text-[60px] font-bold leading-none">
-            {/* {average} */}{value}
+            {/* {average} */}
+            {value}
           </span>
           <Rating
             //   initialRating={average || 0}
@@ -34,14 +36,13 @@ export default function OverallRatingCard() {
             // fullSymbol="fa-solid fa-star text-[18px] text-udine-5"
             // readonly
             value={value}
-            setRating='readonly'
+            setRating="readonly"
           />
-          <span className="text-[9px] mt-1">
+          
             {/* {length > 1
                     ? `based on ${length} student ratings`
                     : `based on ${length} student rating`} */}
-            based on 5 student ratings
-          </span>
+            {details ? <span className="text-[9px] mt-1">based on 5 student ratings</span> : ""}
         </div>
         <div className="flex-1 flex flex-col justify-center w-full mr-[10px]">
           <div className="flex justify-center items-center w-full">

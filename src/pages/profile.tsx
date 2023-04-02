@@ -8,6 +8,8 @@ import logout from "@/assets/icons/logout.svg";
 import Header from "@/components/Header";
 import Navigation from "@/components/Navigation";
 import { useUser } from "@/context";
+import { signOut } from "@/config";
+
 export default function profilePage() {
   const { user, loading } = useUser();
   const border = "border-udine-6";
@@ -45,7 +47,7 @@ export default function profilePage() {
                     </div>
                   ) : (
                     <QRCode
-                      value={(user.email).split("@")[0]}
+                      value={user.email.split("@")[0]}
                       size={200}
                       bgColor="#FFFFFF"
                       fgColor="#000000"
@@ -75,14 +77,14 @@ export default function profilePage() {
               <Image src={udineic} alt="Google" className="mr-3" />
               About Us
             </Link>
-            <Link
-              href="/"
+            <button
+              onClick={signOut}
               className="flex justify-center items-center border-2 py-2 w-[150px] h-[50px] rounded-lg hover:text-udine-1
           text-sm hover:bg-slate-100 bg-white font-semibold"
             >
               <Image src={logout} alt="Google" className="mr-3" />
               Logout
-            </Link>
+            </button>
           </div>
         </div>
       </div>

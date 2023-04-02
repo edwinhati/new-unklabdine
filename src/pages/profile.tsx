@@ -9,9 +9,18 @@ import Header from "@/components/Header";
 import Navigation from "@/components/Navigation";
 import { useUser } from "@/context";
 import { signOut } from "@/config";
+import avatar from "@/assets/images/avatar.png";
 
 export default function profilePage() {
   const { user, loading } = useUser();
+  const [name, setName] = useState("");
+  const [photo, setPhoto] = useState(null);
+  useEffect(() => {
+    if (user) {
+      setName(user.displayName.split(" ")[0]);
+      setPhoto(user.photoURL);
+    }
+  }, [user]);
   const border = "border-udine-6";
   const shadow = "shadow-udine-6";
   return (
@@ -20,7 +29,7 @@ export default function profilePage() {
       <div className=" mt-[100px] flex flex-col justify-center items-center">
         <div className="w-[100px] h-[100px] rounded-full bg-udine-1">
           <Image
-            src={user.photoURL}
+            src={photo || avatar}
             alt="profile"
             className="w-[100px] h-[100px] rounded-full"
             width={100}
@@ -33,7 +42,7 @@ export default function profilePage() {
           <div className="rounded w-[300px] h-[380px] mx-auto justify-center items-center flex flex-col">
             <div className="flex flex-col justify-center items-center">
               <h1 className="font-bold text-[18px] text-[#2D2D2D] text-center">
-                {user.displayName}
+                {name}
               </h1>
               <h1 className="font text-[16px] text-[#2D2D2D]">Residence</h1>
             </div>

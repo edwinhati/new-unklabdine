@@ -7,20 +7,11 @@ import udineic from "@/assets/icons/udineic.svg";
 import logout from "@/assets/icons/logout.svg";
 import Header from "@/components/Header";
 import Navigation from "@/components/Navigation";
-import { getCurrentUser } from "@/config";
-
+import { useUser } from "@/context";
 export default function profilePage() {
-  const [loading, setLoading] = useState(true);
-  const [user, setUser]: any = useState("");
-  useEffect(() => {
-    getCurrentUser().then((result: any) => {
-      setUser(result);
-      setLoading(false);
-    });
-  }, []);
+  const { user, loading } = useUser();
   const border = "border-udine-6";
   const shadow = "shadow-udine-6";
-  console.log(user);
   return (
     <>
       <Header label="Profile" hasBack={false} />
@@ -59,7 +50,6 @@ export default function profilePage() {
                       bgColor="#FFFFFF"
                       fgColor="#000000"
                       level="Q"
-                      onLoad={() => setLoading(false)}
                     />
                   )}
                 </div>

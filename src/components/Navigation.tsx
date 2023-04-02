@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import avatar from "../assets/images/avatar.png";
+import { useUser } from "@/context";
 
-function NavItem(props: { label: any; icon: any; active: any; hasphoto: any }) {
-  const { label, icon, active, hasphoto } = props;
+function NavItem(props: { label: any; icon: any; active: any; photo: any }) {
+  const { label, icon, active, photo } = props;
   const [isActive, setIsActive] = useState(active);
-
   return (
     <Link
       href={`/${label === "Home" ? "" : label.toLowerCase()}`}
@@ -18,11 +18,13 @@ function NavItem(props: { label: any; icon: any; active: any; hasphoto: any }) {
       }`}
       onClick={() => setIsActive(true)}
     >
-      {hasphoto ? (
+      {photo ? (
         <Image
-          src={avatar}
+          src={photo}
           alt="profile"
           className="w-[24px] h-[24px] rounded-full mt-1 items-center"
+          width={24}
+          height={24}
         />
       ) : (
         <i className={`${icon} text-[24px] mt-1`} />
@@ -33,6 +35,14 @@ function NavItem(props: { label: any; icon: any; active: any; hasphoto: any }) {
 
 export default function TabBar() {
   const router = useRouter();
+  const { user } = useUser();
+  const [photo, setPhoto] = useState(null);
+
+  useEffect(() => {
+    if (user) {
+      setPhoto(user.photoURL);
+    }
+  }, [user]);
 
   return (
     <div className="flex justify-between fixed bottom-0 w-full max-w-[600px] bg-white shadow-2xl">
@@ -40,31 +50,31 @@ export default function TabBar() {
         icon="fa-solid fa-home"
         label="Home"
         active={router.pathname === "/"}
-        hasphoto={undefined}
+        photo={false}
       />
       <NavItem
         icon="fa-solid fa-star"
         label="Rating"
         active={router.pathname === "/rating"}
-        hasphoto={undefined}
+        photo={false}
       />
       <NavItem
         icon="fa-solid fa-qrcode"
         label="Scan"
         active={router.pathname === "/scan"}
-        hasphoto={undefined}
+        photo={false}
       />
       <NavItem
         icon="fa-solid fa-calendar-alt"
         label="Schedule"
         active={router.pathname === "/schedule"}
-        hasphoto={undefined}
+        photo={false}
       />
       <NavItem
         icon="fa-solid fa-user"
         label="Profile"
         active={router.pathname === "/profile"}
-        hasphoto={false}
+        photo={photo}
       />
     </div>
   );

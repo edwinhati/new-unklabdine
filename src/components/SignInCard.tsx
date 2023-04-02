@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import Google from "../assets/icons/google.svg";
 import Image from "next/image";
+import { signInWithGoogle } from "@/config";
 
 export default function SignInCard() {
   return (
@@ -17,6 +18,7 @@ export default function SignInCard() {
           <button
             className="flex justify-center items-center text-black w-[200px] h-[40px] mt-[0px] bg-white text-[12px] font-medium p-0 rounded-[10px] relative hover:w-[220px] transition-all ease-in-out duration-300 border-[1px] border-gray-300"
             type="button"
+            onClick={signInWithGoogle}
           >
             <Image src={Google} alt="Google" className="mr-3" />
             Sign in with Google

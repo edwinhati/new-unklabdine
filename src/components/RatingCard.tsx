@@ -4,7 +4,7 @@ import Rating from "./Rating";
 import { useState } from "react";
 
 export default function RatingCard(props: any) {
-  const [value, setValue] = useState(1.5);
+  const [value, setValue] = useState(3.3);
   const { title, subtitle, details } = props;
   return (
     <div className="bg-white rounded-xl px-2 pb-4">

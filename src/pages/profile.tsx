@@ -1,30 +1,37 @@
-import { useState } from "react";
+/* eslint-disable react-hooks/rules-of-hooks */
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import QRCode from "react-qr-code";
-import avatar from "../assets/images/avatar.png";
 import udineic from "@/assets/icons/udineic.svg";
 import logout from "@/assets/icons/logout.svg";
 import Header from "@/components/Header";
 import Navigation from "@/components/Navigation";
+import { getCurrentUser } from "@/config";
 
 export default function profilePage() {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [loading, setLoading] = useState(true);
-  setTimeout(() => {
-    setLoading(false);
-  }, 2000);
+  const [user, setUser]: any = useState("");
+  useEffect(() => {
+    getCurrentUser().then((result: any) => {
+      setUser(result);
+      setLoading(false);
+    });
+  }, []);
   const border = "border-udine-6";
   const shadow = "shadow-udine-6";
+  console.log(user);
   return (
     <>
       <Header label="Profile" hasBack={false} />
       <div className=" mt-[100px] flex flex-col justify-center items-center">
         <div className="w-[100px] h-[100px] rounded-full bg-udine-1">
           <Image
-            src={avatar}
-            alt=""
+            src={user.photoURL}
+            alt="profile"
             className="w-[100px] h-[100px] rounded-full"
+            width={100}
+            height={100}
           />
         </div>
         <div
@@ -33,7 +40,7 @@ export default function profilePage() {
           <div className="rounded w-[300px] h-[380px] mx-auto justify-center items-center flex flex-col">
             <div className="flex flex-col justify-center items-center">
               <h1 className="font-bold text-[18px] text-[#2D2D2D] text-center">
-                Joe Doe
+                {user.displayName}
               </h1>
               <h1 className="font text-[16px] text-[#2D2D2D]">Residence</h1>
             </div>
@@ -47,7 +54,7 @@ export default function profilePage() {
                     </div>
                   ) : (
                     <QRCode
-                      value="Code"
+                      value={(user.email).split("@")[0]}
                       size={200}
                       bgColor="#FFFFFF"
                       fgColor="#000000"

@@ -10,11 +10,11 @@ interface GreetingCardProps {
   greeting: string;
 }
 
-export default function GreetingCard() {
+export default function GreetingCard(props: any) {
   const greeting = getGreeting();
   const mealtime = getMealtime(greeting);
   const { color, image } = getGreetingCard(greeting);
-
+  const { name } = props;
   return (
     <Link
       href="/schedule"
@@ -26,7 +26,7 @@ export default function GreetingCard() {
           Good <br /> {greeting}
         </h1>
         <h1 className="text-[30px] font-bold text-white leading-tight">
-          Joe Doe
+          {name}
         </h1>
       </div>
       <br />

@@ -5,21 +5,29 @@ import RatingCard from "@/components/RatingCard";
 import RatingCta from "@/components/RatingCta";
 import RatingPost from "@/components/RatingPost";
 import SignInCard from "@/components/SignInCard";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useUser } from "@/context";
 
 export default function HomePage() {
+  const [name, setName] = useState(null);
+  const { user } = useUser();
   const [loading, setLoading] = useState(true);
   setTimeout(() => {
     setLoading(false);
   }, 2000);
+  useEffect(() => {
+    if (user) {
+      setName(user.displayName.split(" ")[0]);
+    }
+  }, [user]);
 
   return (
     <>
       <Header label="Home" hasBack={false} />
       <div className="flex flex-col gap-2 h-full w-full bg-[#f0f0f0] pt-16 pb-20 px-2">
-        <GreetingCard />
+        <GreetingCard name={name} />
         <RatingCard title="Weekly" subtitle="Overall Rating" details={true} />
-        <SignInCard />
+        {user ? null : <SignInCard />}
         <RatingCta />
         {loading ? (
           <div className="flex justify-center items-start h-full">

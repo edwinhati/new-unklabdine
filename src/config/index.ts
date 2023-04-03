@@ -16,16 +16,6 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_APP_ID,
   measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID,
 };
-// const firebaseConfig = {
-//   apiKey: "AIzaSyDhiEwAk6LLLr5y03R1pDztWPkPBfgzv4s",
-//   authDomain: "unklabdine.firebaseapp.com",
-//   databaseURL: "https://unklabdine-default-rtdb.firebaseio.com",
-//   projectId: "unklabdine",
-//   storageBucket: "unklabdine.appspot.com",
-//   messagingSenderId: "833575028361",
-//   appId: "1:833575028361:web:a300ff9e586984c79be858",
-//   measurementId: "G-Q8K5ER6HHE"
-// };
 
 const app = initializeApp(firebaseConfig);
 
@@ -38,13 +28,4 @@ export async function signInWithGoogle() {
 
 export async function signOut() {
   await auth.signOut();
-}
-
-export function getCurrentUser(): Promise<any | null> {
-  return new Promise((resolve, reject) => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      unsubscribe();
-      resolve(user);
-    }, reject);
-  });
 }

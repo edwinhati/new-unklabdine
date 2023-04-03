@@ -10,21 +10,24 @@ import Navigation from "@/components/Navigation";
 import { useUser } from "@/context";
 import { signOut } from "@/config";
 import avatar from "@/assets/images/avatar.png";
+import Protected from "@/guard";
 
 export default function profilePage() {
   const { user, loading } = useUser();
   const [name, setName] = useState("");
   const [photo, setPhoto] = useState(null);
+  const [noreg, setNoreg] = useState("");
   useEffect(() => {
     if (user) {
       setName(user.displayName.split(" ")[0]);
       setPhoto(user.photoURL);
+      setNoreg(user.email.split("@")[0]);
     }
   }, [user]);
   const border = "border-udine-6";
   const shadow = "shadow-udine-6";
   return (
-    <>
+    <Protected>
       <Header label="Profile" hasBack={false} />
       <div className=" mt-[100px] flex flex-col justify-center items-center">
         <div className="w-[100px] h-[100px] rounded-full bg-udine-1">
@@ -56,7 +59,7 @@ export default function profilePage() {
                     </div>
                   ) : (
                     <QRCode
-                      value={user.email.split("@")[0]}
+                      value={noreg}
                       size={200}
                       bgColor="#FFFFFF"
                       fgColor="#000000"
@@ -98,6 +101,6 @@ export default function profilePage() {
         </div>
       </div>
       <Navigation />
-    </>
+    </Protected>
   );
 }

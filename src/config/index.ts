@@ -5,6 +5,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -29,3 +30,5 @@ export async function signInWithGoogle() {
 export async function signOut() {
   await auth.signOut();
 }
+
+export const firestore = getFirestore(app);

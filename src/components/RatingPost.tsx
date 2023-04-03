@@ -1,40 +1,115 @@
-/* eslint-disable react/no-array-index-key */
-import avatar from "../assets/images/avatar.png";
-import foodImage from "../assets/images/food.png";
-import Rating from "./Rating";
+import { useState } from "react";
 import Image from "next/image";
 
-export default function RatingPost(props: any) {
-  const { comment, name, hasImage } = props;
-  return (
-    <div className="bg-white rounded-xl p-[10px]">
-      {hasImage ? (
-        <Image src={foodImage} alt="avatar" className="w-full" />
-      ) : (
-        ""
-      )}
+import Rating from "./Rating";
 
-      <div className="mt-2 flex justify-between items-center">
-        <div className="flex justify-center items-center gap-2">
-          <div className="w-[50px] h-[50px] rounded-full bg-udine-1">
-            <Image src={avatar} alt="" className="rounded-full" />
+import avatar from "../assets/images/avatar.png";
+import foodImage from "../assets/images/food.png";
+
+interface Props {
+  comment: string;
+  name: string;
+  hasImage: boolean;
+  food: {
+    rating: number;
+    aspects: any;
+  };
+  environment: {
+    rating: number;
+    aspects: any;
+  };
+  service: {
+    rating: number;
+    aspects: any;
+  };
+  mealtime: string;
+  isAnonymous: boolean;
+  photo: string;
+  time: {
+    seconds: number;
+  };
+}
+
+export default function RatingPost({
+  comment,
+  name,
+  hasImage,
+  food,
+  environment,
+  service,
+  mealtime,
+  isAnonymous,
+  photo,
+  time,
+}: Props) {
+  const [rating] = useState(
+    (food.rating + environment.rating + service.rating) / 3
+  );
+  const [aspects] = useState(
+    [].concat(food.aspects, environment.aspects, service.aspects)
+  );
+  const [age] = useState(calculateAge(time.seconds));
+
+  function calculateAge(postTime: number) {
+    const minutes = Math.floor((Date.now() / 1000 - postTime) / 60);
+
+    if (minutes < 1) {
+      return "just now";
+    } else if (minutes < 60) {
+      return `${minutes} minutes ago`;
+    } else if (minutes < 120) {
+      return "1 hour ago";
+    } else if (minutes < 1440) {
+      return `${Math.floor(minutes / 60)} hours ago`;
+    } else if (minutes < 2880) {
+      return "1 day ago";
+    } else {
+      return `${Math.floor(minutes / 1440)} days ago`;
+    }
+  }
+
+  function capitalize(str: string) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  return (
+    <div className="bg-white rounded-xl p-4">
+      {hasImage && (
+        <div className="mb-2">
+          <Image src={foodImage} alt="Food" width={640} height={400} />
+        </div>
+      )}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-2">
+          <div className="w-10 h-10 rounded-full bg-gray-300">
+            <Image
+              src={isAnonymous ? avatar : photo}
+              alt="Avatar"
+              className="rounded-full"
+              width={40}
+              height={40}
+            />
           </div>
-          <div className="flex flex-col">
-            <span className="text-[15x] font-semibold">{name}</span>
-            <span className="text-[9px]">Lunch • 1d</span>
+          <div>
+            <p className="text-sm font-semibold">
+              {isAnonymous ? "Anonymous" : name}
+            </p>
+            <p className="text-[10px]">{`${capitalize(mealtime)} • ${age}`}</p>
           </div>
         </div>
-        <div className="min-w-max">
-          <Rating value={4} setRating="readonly" />
+        <div className="flex items-center">
+          <Rating value={rating} setRating="readonly" />
         </div>
       </div>
       <div className="mt-2">
-        <p className="text-[12px] ml-1">{comment}</p>
+        <p className="text-[12px]">{comment}</p>
       </div>
-      <div className="mt-2 flex gap-1 flex-wrap">
-        <div className="border-2 rounded-md text-[8px] py-[4px] px-[8px] ml-1">
-          Taste
-        </div>
+      <div className="mt-2 flex flex-wrap -mx-1">
+        {aspects.map((aspect, index) => (
+          <div className="border rounded-md text-xs px-2 py-1 mx-1" key={index}>
+            {aspect}
+          </div>
+        ))}
       </div>
     </div>
   );

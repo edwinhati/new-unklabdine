@@ -7,20 +7,22 @@ import RatingPost from "@/components/RatingPost";
 import SignInCard from "@/components/SignInCard";
 import { useState, useEffect } from "react";
 import { useUser } from "@/context";
+import axios from "axios";
 
 export default function HomePage() {
-  const [name, setName] = useState(null);
   const { user } = useUser();
+  const [name, setName] = useState(null);
   const [loading, setLoading] = useState(true);
-  setTimeout(() => {
-    setLoading(false);
-  }, 2000);
+  const [posts, setPosts]: any = useState([]);
   useEffect(() => {
     if (user) {
       setName(user.displayName.split(" ")[0]);
     }
+    axios.get("/api/response").then((res) => {
+      setPosts(res.data);
+      setLoading(false);
+    });
   }, [user]);
-
   return (
     <>
       <Header label="Home" hasBack={false} />
@@ -35,8 +37,23 @@ export default function HomePage() {
           </div>
         ) : (
           <>
-            <RatingPost hasImage={false} name="Edwin" comment="Testing" />
-            <RatingPost hasImage={true} name="Edwin" comment="Testing 2" />
+            {/* <RatingPost hasImage={false} name="Edwin" comment="Testing" />
+            <RatingPost hasImage={true} name="Edwin" comment="Testing 2" /> */}
+            {posts.map((post: any) => (
+              <RatingPost
+                hasImage={post.image ? true : false}
+                name={post.name}
+                comment={post.comment}
+                environment={post.environment}
+                service={post.service}
+                food={post.food}
+                mealtime={post.mealtime}
+                isAnonymous={post.isAnonymous}
+                key={post.uuid}
+                photo={post.photo}
+                time={post.createdAt}
+              />
+            ))}
           </>
         )}
       </div>

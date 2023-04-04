@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getData } from "./response";
+import { getData } from "../response";
 
 interface Ratings {
   1: number;
@@ -26,23 +26,21 @@ interface Result {
   environment: RatingDetails;
 }
 
+function getDate() {
+  const date = new Date();
+  const dd = String(date.getDate()).padStart(2, "0");
+  const mm = String(date.getMonth() + 1).padStart(2, "0"); //January is 0!
+  const yyyy = date.getFullYear();
+  return `${yyyy}${mm}${dd}`;
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Result>
 ) {
-  const { d } = req.query;
-  const index = Number(d) || 1;
-
-  const dates = Array.from({ length: index }, (_, i) => {
-    const date = new Date();
-    date.setDate(date.getDate() - i);
-    const dd = String(date.getDate()).padStart(2, "0");
-    const mm = String(date.getMonth() + 1).padStart(2, "0"); //January is 0!
-    const yyyy = date.getFullYear();
-    return `${yyyy}${mm}${dd}`;
-  });
-
-  const data = await Promise.all(dates.map((date) => getData(date)));
+  const { value } = req.query;
+  var data = await getData(getDate());
+  data = data.filter((item) => item.mealtime === value);
   const flatData = data.flat();
   const [length, food, service, environment] = getStat(flatData);
   const average = ((food + service + environment) / (length * 3)).toFixed(1);

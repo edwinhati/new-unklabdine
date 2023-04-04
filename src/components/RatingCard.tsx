@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 import ProgressBar from "@ramonak/react-progress-bar";
 import Rating from "./Rating";
 
-export default function RatingCard({ title, subtitle, value, data }: any) {
+export default function RatingCard({ title, subtitle, value, data, withCta }: any) {
   const [loading, setLoading] = useState(!(data || value));
+  const [ignore, setIgnore] = useState(false);
   useEffect(() => {
     if (data || value) setLoading(false);
   }, [data, value]);
   const averageRating = data ? data.average : value;
-  
+
   const renderRatingInfo = () => {
     if (!data) return null;
     const ratingCountText =
@@ -51,7 +52,15 @@ export default function RatingCard({ title, subtitle, value, data }: any) {
               </span>
               <div className="w-full">
                 <ProgressBar
-                  completed={data ? ((data.food[ratingValue] + data.service[ratingValue] + data.environment[ratingValue])/data.length) *100 : 0}
+                  completed={
+                    data
+                      ? ((data.food[ratingValue] +
+                          data.service[ratingValue] +
+                          data.environment[ratingValue]) /
+                          data.length) *
+                        100
+                      : 0
+                  }
                   bgColor="#FF9345"
                   height="5px"
                   isLabelVisible={false}
@@ -61,6 +70,24 @@ export default function RatingCard({ title, subtitle, value, data }: any) {
           ))}
         </div>
       </div>
+      {!ignore && withCta ? (
+        <div className="flex justify-center mt-4">
+          <button
+            type="button"
+            className="bg-white text-udine-5 rounded-full w-[150px] h-[35px] text-[11px] font-semibold border-2 border-udine-5"
+            onClick={() => setIgnore(!ignore)}
+          >
+            Later
+          </button>
+          <button
+            type="button"
+            className="bg-udine-5 text-white rounded-full w-[200px] h-[35px] text-[11px] font-semibold ml-4 hover:w-[220px] transition-all ease-in-out duration-300"
+            // onClick={() => click()}
+          >
+            Rate Now
+          </button>
+        </div>
+      ): null}
     </div>
   );
 }

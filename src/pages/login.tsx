@@ -1,6 +1,7 @@
 import Image from "next/image";
 import udine from "../assets/icons/udine.svg";
 import Google from "../assets/icons/google.svg";
+import { signInWithGoogle } from "@/config";
 
 export default function LoginPage() {
   return (
@@ -25,6 +26,7 @@ export default function LoginPage() {
         <div className="flex justify-center items-center mt-20">
           <button
             type="button"
+            onClick={signInWithGoogle}
             className="flex justify-center items-center border-2 py-2 w-full rounded-lg text-sm hover:bg-slate-100 bg-white"
           >
             <Image src={Google} alt="Google" className="mr-3" />

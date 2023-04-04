@@ -24,7 +24,9 @@ export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 
 export async function signInWithGoogle() {
-  await signInWithPopup(auth, googleProvider);
+  await signInWithPopup(auth, googleProvider).then(() => {
+    window.location.href = "/";
+  });
 }
 
 export async function signOut() {

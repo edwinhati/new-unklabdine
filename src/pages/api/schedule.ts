@@ -39,7 +39,7 @@ async function getData() {
 
 function processData(data: any[][], i: number) {
   const mealTypes = ["breakfast", "lunch", "dinner"];
-  const newData = {};
+  const newData: any = {};
 
   mealTypes.forEach((mealType, index) => {
     const items = [];

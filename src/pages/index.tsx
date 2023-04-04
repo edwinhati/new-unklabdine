@@ -46,7 +46,7 @@ export default function HomePage() {
           </div>
         ) : (
           <>
-            {posts.map((post: any) => (
+            {posts.map((post: any, index: any) => (
               <RatingPost
                 hasImage={post.image ? true : false}
                 name={post.name}
@@ -56,9 +56,10 @@ export default function HomePage() {
                 food={post.food}
                 mealtime={post.mealtime}
                 isAnonymous={post.isAnonymous}
-                key={post.uuid}
                 photo={post.photo}
                 time={post.createdAt}
+                image={post.image}
+                key={index}
               />
             ))}
           </>

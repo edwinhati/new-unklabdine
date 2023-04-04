@@ -28,6 +28,7 @@ interface Props {
   time: {
     seconds: number;
   };
+  image?: string;
 }
 
 export default function RatingPost({
@@ -41,6 +42,7 @@ export default function RatingPost({
   isAnonymous,
   photo,
   time,
+  image,
 }: Props) {
   const [rating] = useState(
     (food.rating + environment.rating + service.rating) / 3
@@ -76,7 +78,7 @@ export default function RatingPost({
     <div className="bg-white rounded-xl p-4">
       {hasImage && (
         <div className="mb-2">
-          <Image src={foodImage} alt="Food" width={640} height={400} />
+          <Image src={image} alt="Food" width={640} height={400} />
         </div>
       )}
       <div className="flex items-center justify-between">

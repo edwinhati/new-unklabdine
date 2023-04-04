@@ -21,7 +21,7 @@ export default async function handler(
       var date = new Date(new Date());
       date.setDate(date.getDate() - i);
       var dd = String(date.getDate()).padStart(2, "0");
-      var mm = String(date.getMonth() + 1).padStart(2, "0"); //January is 0!
+      var mm = String(date.getMonth() + 1).padStart(2, "0");
       var yyyy = date.getFullYear();
       dates.push(yyyy + mm + dd);
     }
@@ -38,7 +38,7 @@ export default async function handler(
     res.status(200).json(data.flat().sort(SortByDate));
 }
 
-async function getData(date: string) {
+export async function getData(date: string) {
   const snapshot = await Promise.all([
     getDocs(collection(firestore, `responses/${date}/breakfast`)),
     getDocs(collection(firestore, `responses/${date}/lunch`)),

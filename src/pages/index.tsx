@@ -14,6 +14,7 @@ export default function HomePage() {
   const [name, setName] = useState(null);
   const [loading, setLoading] = useState(true);
   const [posts, setPosts]: any = useState([]);
+  const [rating, setRating] = useState(null);
   useEffect(() => {
     if (user) {
       setName(user.displayName.split(" ")[0]);
@@ -22,13 +23,21 @@ export default function HomePage() {
       setPosts(res.data);
       setLoading(false);
     });
+    axios.get("/api/rating?d=7").then((res) => {
+      setRating(res.data);
+    });
   }, [user]);
   return (
     <>
       <Header label="Home" hasBack={false} />
       <div className="flex flex-col gap-2 h-full w-full bg-[#f0f0f0] pt-16 pb-20 px-2">
         <GreetingCard name={name} />
-        <RatingCard title="Weekly" subtitle="Overall Rating" details={true} />
+        <RatingCard
+          title="Weekly"
+          subtitle="Overall Rating"
+          details={true}
+          data={rating}
+        />
         {user ? null : <SignInCard />}
         <RatingCta />
         {loading ? (
@@ -37,8 +46,6 @@ export default function HomePage() {
           </div>
         ) : (
           <>
-            {/* <RatingPost hasImage={false} name="Edwin" comment="Testing" />
-            <RatingPost hasImage={true} name="Edwin" comment="Testing 2" /> */}
             {posts.map((post: any) => (
               <RatingPost
                 hasImage={post.image ? true : false}

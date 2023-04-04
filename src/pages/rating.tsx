@@ -10,9 +10,9 @@ export default function RatingPage() {
         <div className="flex flex-col items-center justify-center bg-white rounded border">
           <p className="text-black text-[10px] text-center mt-1 mb-1">today</p>
         </div>
-        <RatingCard title="Breakfast" subtitle="" details={false} />
-        <RatingCard title="Lunch" subtitle="" details={false} />
-        <RatingCard title="Dinner" subtitle="" details={false} />
+        <RatingCard title="Breakfast" subtitle="" value={5} />
+        <RatingCard title="Lunch" subtitle="" value={5} />
+        <RatingCard title="Dinner" subtitle="" value={5} />
         <div className="flex justify-center items-center w-full bg-white rounded pb-3">
           <span className="text-[12px] mt-3">
             {/* {length > 1

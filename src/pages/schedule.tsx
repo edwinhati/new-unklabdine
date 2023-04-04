@@ -3,12 +3,24 @@ import Image from "next/image";
 import Header from "@/components/Header";
 import Navigation from "@/components/Navigation";
 import { AnimatePresence, motion } from "framer-motion";
+import axios from "axios";
 
 import MorningNoBg from "@/assets/svg/MorningNoBg.svg";
 import NoonNoBg from "@/assets/svg/NoonNoBg.svg";
 import NightNoBg from "@/assets/svg/NightNoBg.svg";
 
+const DAY_STRING = [
+  "sunday",
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+  "saturday",
+];
+
 export default function SchedulePage() {
+  const [schedule, setSchedule] = useState(null);
   const [card, setCard] = useState([
     {
       title: "Breakfast",
@@ -16,6 +28,7 @@ export default function SchedulePage() {
       color: "bg-[#2F80ED]",
       image: MorningNoBg,
       isOpen: false,
+      menu: null,
     },
     {
       title: "Lunch",
@@ -23,6 +36,7 @@ export default function SchedulePage() {
       color: "bg-[#F2C94C]",
       image: NoonNoBg,
       isOpen: false,
+      menu: null,
     },
     {
       title: "Dinner",
@@ -30,14 +44,26 @@ export default function SchedulePage() {
       color: "bg-[#001633]",
       image: NightNoBg,
       isOpen: false,
+      menu: null,
     },
   ]);
   const [isOpen, setIsOpen] = useState(Array.from(card, () => true));
-  const toggle = (index: any, value: any) => {
-    const newIsOpen = [...isOpen];
-    newIsOpen[index] = value ?? !newIsOpen[index];
-    setIsOpen(newIsOpen);
+
+  const currentDaySchedule = schedule
+    ? schedule[DAY_STRING[new Date().getDay()]]
+    : null;
+
+  const toggle = (index) => {
+    setIsOpen((prevIsOpen) =>
+      prevIsOpen.map((item, idx) => (idx === index ? !item : item))
+    );
   };
+
+  useEffect(() => {
+    axios.get("/api/schedule").then((res) => {
+      setSchedule(res.data);
+    });
+  }, []);
 
   useEffect(() => {
     const newCard = [...card];
@@ -48,9 +74,14 @@ export default function SchedulePage() {
     if (day === 5 || day === 6) {
       newCard[2].time = "18:00PM - 20:00PM";
     }
+    newCard.forEach((item, index) => {
+      newCard[index].menu = currentDaySchedule
+        ? currentDaySchedule[item.title.toLowerCase()]
+        : null;
+    });
     setCard(newCard);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentDaySchedule]);
 
   return (
     <>
@@ -83,11 +114,7 @@ export default function SchedulePage() {
                   }`}
                 >
                   <h2 className="text-xl font-bold leading-none ">
-                    {/* {item.title === "Breakfast"
-                      ? breakfast
-                      : item.title === "Lunch"
-                      ? lunch
-                      : dinner} */}
+                    {item.menu}
                   </h2>
                 </motion.div>
               </AnimatePresence>

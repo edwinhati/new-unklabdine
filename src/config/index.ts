@@ -32,3 +32,10 @@ export async function signOut() {
 }
 
 export const firestore = getFirestore(app);
+
+export const today = new Date().toLocaleDateString("en-US", {
+  weekday: "long",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});

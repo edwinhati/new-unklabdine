@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Navigation from "@/components/Navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import axios from "axios";
+import { today } from "@/config";
 
 import MorningNoBg from "@/assets/svg/MorningNoBg.svg";
 import NoonNoBg from "@/assets/svg/NoonNoBg.svg";
@@ -53,7 +54,7 @@ export default function SchedulePage() {
     ? schedule[DAY_STRING[new Date().getDay()]]
     : null;
 
-  const toggle = (index) => {
+  const toggle = (index: any) => {
     setIsOpen((prevIsOpen) =>
       prevIsOpen.map((item, idx) => (idx === index ? !item : item))
     );
@@ -87,13 +88,13 @@ export default function SchedulePage() {
     <>
       <Header label="Schedule" hasBack={false} />
       <div className="flex flex-col gap-2 h-full w-full bg-[#f0f0f0] pt-16 pb-20 px-2">
-        <span className="font-bold">Today</span>
+        <span className="font-bold">{today}</span>
         <div className="flex flex-col gap-2 h-full w-full">
           {card.map((item, index) => (
             <button
               type="button"
               key={index}
-              onClick={() => toggle(index, item.isOpen)}
+              onClick={() => toggle(index)}
               className={`relative flex flex-col ${item.color} rounded-xl p-3 min-w-full min-h-[190px] overflow-hidden`}
             >
               <Image

@@ -9,7 +9,14 @@ interface MealData {
   createdAt: {
     seconds: number;
   };
-  // Add other properties as needed
+  name: string;
+  isAnonymous: boolean;
+  photo: string;
+  comment: string;
+  image: string;
+  food: number;
+  environment: number;
+  service: number;
 }
 
 export default async function handler(

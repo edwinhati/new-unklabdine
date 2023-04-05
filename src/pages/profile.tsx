@@ -8,7 +8,7 @@ import logout from "@/assets/icons/logout.svg";
 import Header from "@/components/Header";
 import Navigation from "@/components/Navigation";
 import { useUser } from "@/context";
-import { signOut } from "@/config";
+import { signOut, today, mealtime } from "@/config";
 import avatar from "@/assets/images/avatar.png";
 import Protected from "@/guard";
 
@@ -72,7 +72,7 @@ export default function profilePage() {
                     This QR code is only valid during the current mealtime
                   </h1>
                   <h1 className="font text-[10px] text-[#808080] mt-[2px] w-60 text-center">
-                    Today - Breakfast
+                    {today} - {mealtime}
                   </h1>
                 </div>
               </div>

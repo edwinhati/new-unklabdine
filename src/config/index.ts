@@ -41,3 +41,19 @@ export const today = new Date().toLocaleDateString("en-US", {
   month: "long",
   day: "numeric",
 });
+
+function getMealtime() {
+  const time = new Date().getUTCHours() + 8;
+  if (time > 1 && time < 10) {
+    return "Breakfast";
+  }
+  if (time > 10 && time < 15) {
+    return "Lunch";
+  }
+  if (time > 15 && time < 22) {
+    return "Dinner";
+  }
+  return "undefined";
+}
+
+export const mealtime = getMealtime();

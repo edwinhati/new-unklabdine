@@ -24,7 +24,10 @@ export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 
 export async function signInWithGoogle() {
-  await signInWithPopup(auth, googleProvider).then(() => {
+  await signInWithPopup(auth, googleProvider).then((result) => {
+    if (result.user.photoURL) {
+      localStorage.setItem("photoURL", result.user.photoURL);
+    }
     window.location.href = "/";
   });
 }

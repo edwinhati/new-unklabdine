@@ -31,9 +31,7 @@ export default function RatingCard({
   };
 
   const clickHandler = async () => {
-    await setMealtime(
-      title !== ("Breakfast" || "Lunch" || "Dinner") ? mealtime : title
-    );
+    await setMealtime(title === "Weekly" ? mealtime : title);
     router.push("/rate");
   };
   return (

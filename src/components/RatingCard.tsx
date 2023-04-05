@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import ProgressBar from "@ramonak/react-progress-bar";
 import Rating from "./Rating";
+import { useUser } from "@/context";
+import { useRouter } from "next/router";
+import { mealtime } from "@/config";
 
 export default function RatingCard({
   title,
@@ -11,6 +14,8 @@ export default function RatingCard({
 }: any) {
   const [loading, setLoading] = useState(!(data || value));
   const [ignore, setIgnore] = useState(false);
+  const { setMealtime } = useUser();
+  const router = useRouter();
   useEffect(() => {
     if (data || value) setLoading(false);
   }, [data, value]);
@@ -25,10 +30,12 @@ export default function RatingCard({
     return <span className="text-[9px] mt-1">{ratingCountText}</span>;
   };
 
-  const clickHandler = () => {
-    console.log("clicked ", title);
+  const clickHandler = async () => {
+    await setMealtime(
+      title !== ("Breakfast" || "Lunch" || "Dinner") ? mealtime : title
+    );
+    router.push("/rate");
   };
-
   return (
     <div className="bg-white rounded-xl px-2 pb-4">
       <div className="text-center mt-4">

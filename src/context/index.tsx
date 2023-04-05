@@ -12,7 +12,9 @@ export const UserContext = createContext({
   user: null,
   loading: true,
   responseStatus: null,
-} as { user: any; loading: boolean; responseStatus: any });
+  mealtime: null,
+  setMealtime: () => {},
+} as { user: any; loading: boolean; responseStatus: any, setMealtime: any, mealtime: any });
 
 export function useUser() {
   return useContext(UserContext);
@@ -22,6 +24,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [responseStatus, setResponseStatus] = useState(null);
+  const [mealtime, setMealtime] = useState(null);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((result: any) => {
@@ -45,7 +48,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }, [user]);
 
   return (
-    <UserContext.Provider value={{ user, loading, responseStatus }}>
+    <UserContext.Provider value={{ user, loading, responseStatus, setMealtime, mealtime }}>
       {children}
     </UserContext.Provider>
   );

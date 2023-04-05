@@ -1,8 +1,8 @@
 import Header from "@/components/Header";
 import Navigation from "@/components/Navigation";
 import RatingCard from "@/components/RatingCard";
-import { today } from "@/config";
 import axios from "axios";
+import { today } from "@/config";
 import { useState, useEffect } from "react";
 import { useUser } from "@/context";
 
@@ -35,19 +35,19 @@ export default function RatingPage() {
           title="Breakfast"
           subtitle=""
           data={breakfast}
-          withCta={responseStatus?.breakfast ? false : true}
+          withCta={responseStatus?.breakfast ? true : false}
         />
         <RatingCard
           title="Lunch"
           subtitle=""
           data={lunch}
-          withCta={responseStatus?.lunch ? false : true}
+          withCta={responseStatus?.lunch ? true : false}
         />
         <RatingCard
           title="Dinner"
           subtitle=""
           data={dinner}
-          withCta={responseStatus?.dinner ? false : true}
+          withCta={responseStatus?.dinner ? true : false}
         />
       </div>
       <Navigation />

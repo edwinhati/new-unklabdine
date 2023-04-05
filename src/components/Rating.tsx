@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-export default function Rating(props: { value: any; setRating: any }) {
-  const value = props.value;
+export default function Rating(props: { value: any; setRating: any, size?: number }) {
+  const {value, size} = props;
   const [hover, setHover] = useState<number | null>(null);
 
   const isReadonly = props.setRating === "readonly";
@@ -17,8 +17,8 @@ export default function Rating(props: { value: any; setRating: any }) {
               ) : (
                 <i
                   className={`fa-solid fa-star text-${
-                    ratingValue <= (hover || value) ? "udine-1" : "e4e5e9"
-                  } text-[19px] mt-1`}
+                    ratingValue <= (hover || value) ? "udine-1" : "gray-400"
+                  } text-[${size}px] mt-1`}
                   onMouseEnter={() => setHover(ratingValue)}
                   onMouseLeave={() => setHover(null)}
                   onClick={() => props.setRating(ratingValue)}

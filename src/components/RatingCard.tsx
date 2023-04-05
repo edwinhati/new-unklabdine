@@ -2,7 +2,13 @@ import { useState, useEffect } from "react";
 import ProgressBar from "@ramonak/react-progress-bar";
 import Rating from "./Rating";
 
-export default function RatingCard({ title, subtitle, value, data, withCta }: any) {
+export default function RatingCard({
+  title,
+  subtitle,
+  value,
+  data,
+  withCta,
+}: any) {
   const [loading, setLoading] = useState(!(data || value));
   const [ignore, setIgnore] = useState(false);
   useEffect(() => {
@@ -17,6 +23,10 @@ export default function RatingCard({ title, subtitle, value, data, withCta }: an
         ? `based on ${data.length} student ratings`
         : `based on ${data.length} student rating`;
     return <span className="text-[9px] mt-1">{ratingCountText}</span>;
+  };
+
+  const clickHandler = () => {
+    console.log("clicked ", title);
   };
 
   return (
@@ -82,12 +92,12 @@ export default function RatingCard({ title, subtitle, value, data, withCta }: an
           <button
             type="button"
             className="bg-udine-5 text-white rounded-full w-[200px] h-[35px] text-[11px] font-semibold ml-4 hover:w-[220px] transition-all ease-in-out duration-300"
-            // onClick={() => click()}
+            onClick={clickHandler}
           >
             Rate Now
           </button>
         </div>
-      ): null}
+      ) : null}
     </div>
   );
 }

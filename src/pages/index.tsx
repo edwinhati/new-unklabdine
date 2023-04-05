@@ -2,7 +2,7 @@ import GreetingCard from "@/components/GreetingCard";
 import Header from "@/components/Header";
 import Navigation from "@/components/Navigation";
 import RatingCard from "@/components/RatingCard";
-import RatingCta from "@/components/RatingCta";
+// import RatingCta from "@/components/RatingCta";
 import RatingPost from "@/components/RatingPost";
 import SignInCard from "@/components/SignInCard";
 import { useState, useEffect } from "react";
@@ -35,11 +35,11 @@ export default function HomePage() {
         <RatingCard
           title="Weekly"
           subtitle="Overall Rating"
-          details={true}
           data={rating}
+          withCta={true}
         />
         {user ? null : <SignInCard />}
-        <RatingCta />
+        {/* <RatingCta /> */}
         {loading ? (
           <div className="flex justify-center items-start h-full">
             <i className="fa-solid fa-spinner text-3xl text-udine-1 animate-spin" />

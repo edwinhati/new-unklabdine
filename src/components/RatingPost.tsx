@@ -28,7 +28,7 @@ interface Props {
   time: {
     seconds: number;
   };
-  image?: string;
+  image?: any;
 }
 
 export default function RatingPost({

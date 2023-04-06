@@ -23,7 +23,7 @@ export default function GreetingCard(props: any) {
       <Image src={image} alt="" className="absolute right-0 bottom-0" />
       <div>
         <h1 className="text-[30px] text-white leading-none mt-10">
-          Good <br /> {greeting}
+          Good <br /> {capitalize(greeting)}
         </h1>
         <h1 className="text-[30px] font-bold text-white leading-tight">
           {name}
@@ -59,9 +59,14 @@ function getGreetingCard(greeting: string): GreetingCard {
       image: NoonNoBg,
     },
     {
-      title: "Evening",
+      title: "evening",
       color: "bg-[#F2994A]",
       image: NoonNoBg,
+    },
+    {
+      title: "Evening",
+      color: "bg-[#001633]",
+      image: NightNoBg,
     },
     {
       title: "Night",
@@ -79,9 +84,11 @@ function getGreeting(): string {
 
   if (curHr < 12) {
     return "Morning";
-  } else if (curHr < 14) {
+  } else if (curHr < 16) {
     return "Afternoon";
   } else if(curHr < 18) {
+    return "evening";
+  } else if (curHr < 20) {
     return "Evening";
   }
    else {
@@ -98,4 +105,8 @@ function getMealtime(greeting: string): string {
     default:
       return "Dinner";
   }
+}
+
+function capitalize(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }

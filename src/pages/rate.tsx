@@ -9,13 +9,17 @@ export default function Rate() {
   const [timeRemaining, setTimeRemaining] = useState(5);
 
   useEffect(() => {
+    if (timeRemaining === 0) {
+      window.location.href = "/";
+      return;
+    }
+
     if (mealtime === null && timeRemaining > 0) {
       const timer = setTimeout(() => {
-        setTimeRemaining(timeRemaining - 1);
+        setTimeRemaining((prevTimeRemaining) => prevTimeRemaining - 1);
       }, 1000);
       return () => clearTimeout(timer);
     }
-    window.location.href = "/";
   }, [mealtime, timeRemaining]);
 
   if (mealtime === null) {

@@ -24,12 +24,12 @@ export default function TabBar() {
         active={router.pathname === "/rating"}
         photo={false}
       />
-      <NavItem
+      {/* <NavItem
         icon="fa-solid fa-qrcode"
         label="Scan"
         active={router.pathname === "/scan"}
         photo={false}
-      />
+      /> */}
       <NavItem
         icon="fa-solid fa-calendar-alt"
         label="Schedule"

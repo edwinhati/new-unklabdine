@@ -52,7 +52,8 @@ export default function HomePage() {
           <>
             {posts.map((post: any, index: any) => (
               <RatingPost
-                hasImage={post.image ? true : false}
+                // hasImage={post.image ? true : false}
+                hasImage={false}
                 name={post.name}
                 comment={post.comment}
                 environment={post.environment}
@@ -62,7 +63,7 @@ export default function HomePage() {
                 isAnonymous={post.isAnonymous}
                 photo={post.photo}
                 time={post.createdAt}
-                image={post.image}
+                // image={post.image}
                 key={index}
               />
             ))}

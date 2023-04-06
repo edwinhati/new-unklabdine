@@ -10,7 +10,7 @@ import { mealtime } from "@/config";
 import axios from "axios";
 
 export default function HomePage() {
-  const { user } = useUser();
+  const { user, responseStatus } = useUser();
   const [name, setName] = useState(null);
   const [loading, setLoading] = useState(true);
   const [posts, setPosts]: any = useState([]);
@@ -27,6 +27,7 @@ export default function HomePage() {
       setRating(res.data);
     });
   }, [user]);
+  
   return (
     <>
       <Header label="Home" hasBack={false} />
@@ -36,7 +37,11 @@ export default function HomePage() {
           title="Weekly"
           subtitle="Overall Rating"
           data={rating}
-          withCta={mealtime ? true : false}
+          withCta={
+            mealtime && responseStatus && responseStatus[mealtime.toLowerCase()]
+              ? true
+              : false
+          }
         />
         {user ? null : <SignInCard />}
         {loading ? (

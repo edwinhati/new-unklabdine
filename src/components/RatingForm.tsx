@@ -26,6 +26,7 @@ export default function RatingForm({ mealtime }: any) {
   const [isAnonymous, setAnonymous] = useState(false);
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState<File | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
 
   const getResponse = (rating: number) => {
     if (rating === 1) return "Apa yang menurut anda buruk?";
@@ -38,7 +39,7 @@ export default function RatingForm({ mealtime }: any) {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setLoading(true);
-    let imageURL;
+    let imageURL = "";
     try {
       if (image) {
         const storageRef = ref(
@@ -46,9 +47,7 @@ export default function RatingForm({ mealtime }: any) {
           `images/${noreg}_${getDate()}_${mealtime}`
         );
         const snapshot = await uploadBytes(storageRef, image);
-        await getDownloadURL(snapshot.ref).then((url) => {
-          imageURL = url;
-        });
+        imageURL = await getDownloadURL(snapshot.ref);
       }
 
       const response = {
@@ -73,16 +72,22 @@ export default function RatingForm({ mealtime }: any) {
         createdAt: Timestamp.now(),
       };
 
-      await setDoc(doc(firestore, "responses", getDate()), {});
-      await setDoc(
-        doc(
-          firestore,
-          `responses/${getDate()}/${mealtime.toLowerCase()}`,
-          noreg
-        ),
-        response
-      );
-      window.location.href = "/";
+      if (foodRating === 0 || serviceRating === 0 || environmentRating === 0) {
+        setMessage("Harap isi semua bagian rating");
+        setLoading(false);
+        return;
+      } else {
+        await setDoc(doc(firestore, "responses", getDate()), {});
+        await setDoc(
+          doc(
+            firestore,
+            `responses/${getDate()}/${mealtime.toLowerCase()}`,
+            noreg
+          ),
+          response
+        );
+        window.location.href = "/";
+      }
     } catch (error) {
       console.error(error);
     }
@@ -93,6 +98,11 @@ export default function RatingForm({ mealtime }: any) {
       <Header label={mealtime} hasBack={true} />
       <form className="flex flex-col gap-2 w-full pt-16 pb-40 px-2 bg-white">
         <div className="flex flex-col justify-center items-center">
+          {message && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 mb-2 rounded relative" role="alert">
+              <span className="block sm:inline">{message}</span>
+            </div>
+          )}
           <div className="flex flex-col gap-2 text-center">
             <h2 className="font-bold uppercase">Makanan</h2>
             <p className="text-[12px] font-light text-gray-500">

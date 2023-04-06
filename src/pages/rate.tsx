@@ -2,6 +2,7 @@ import { useUser } from "@/context";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import RatingForm from "@/components/RatingForm";
+import Protected from "@/guard";
 
 export default function Rate() {
   const { mealtime } = useUser();
@@ -14,12 +15,13 @@ export default function Rate() {
       }, 1000);
       return () => clearTimeout(timer);
     }
+    window.location.href = "/";
   }, [mealtime, timeRemaining]);
 
   if (mealtime === null) {
     return (
       <div className="text-center">
-        <h1 className="text-2xl font-bold mt-4">
+        <h1 className="text-2xl font-bold mt-10">
           You are not allowed to access this page.
         </h1>
         <p className="text-sm mt-2">
@@ -29,5 +31,9 @@ export default function Rate() {
     );
   }
 
-  return <RatingForm mealtime={mealtime} />;
+  return (
+    <Protected>
+      <RatingForm mealtime={mealtime} />
+    </Protected>
+  );
 }

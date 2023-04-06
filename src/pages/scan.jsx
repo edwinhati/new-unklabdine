@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import Header from "@/components/Header";
 import Navigation from "@/components/Navigation";
 import QrScanner from "qr-scanner";
+import Protected from "@/guard";
 
 export default function scanPage() {
   const [result, setResult] = useState("");
@@ -31,7 +32,7 @@ export default function scanPage() {
   }, []);
 
   return (
-    <>
+    <Protected>
       <Header label="Scan" hasBack={false} />
       <div className="flex flex-col bg-[#f0f0f0] pt-12">
         <div className="flex flex-col justify-center items-center">
@@ -56,6 +57,6 @@ export default function scanPage() {
         )}
       </div>
       <Navigation />
-    </>
+    </Protected>
   );
 }

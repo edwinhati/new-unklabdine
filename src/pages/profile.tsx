@@ -8,15 +8,31 @@ import logout from "@/assets/icons/logout.svg";
 import Header from "@/components/Header";
 import Navigation from "@/components/Navigation";
 import { useUser } from "@/context";
-import { signOut, today, mealtime } from "@/config";
+import { signOut, today, mealtime as mt } from "@/config";
 import avatar from "@/assets/images/avatar.png";
 import Protected from "@/guard";
+import { getDate } from "./api/rating/mealtime";
+import axios from "axios";
 
 export default function profilePage() {
   const { user, loading, residence } = useUser();
-  const [name, setName] = useState("");
-  const [photo, setPhoto] = useState(null);
-  const [noreg, setNoreg] = useState("");
+  const [name, setName] = useState(user?.displayName?.split(" ")[0] || "");
+  const [photo, setPhoto] = useState(user?.photoURL || null);
+  const [noreg, setNoreg] = useState(user?.email?.split("@")[0] || "");
+  const [mealtime, setMealtime] = useState(mt);
+  const [border, setBorder] = useState("");
+  const [shadow, setShadow] = useState("");
+
+  useEffect(() => {
+    if (residence === "Outsider") {
+      setBorder("border-red-500");
+      setShadow("shadow-red-500");
+    } else {
+      setBorder("border-udine-1");
+      setShadow("shadow-udine-1");
+    }
+  }, [residence]);
+
   useEffect(() => {
     if (user) {
       setName(user.displayName.split(" ")[0]);
@@ -24,8 +40,35 @@ export default function profilePage() {
       setNoreg(user.email.split("@")[0]);
     }
   }, [user]);
-  const border = "border-udine-6";
-  const shadow = "shadow-udine-6";
+
+  useEffect(() => {
+    let latestBorder = border;
+    let latestShadow = shadow;
+
+    if (mealtime) {
+      const interval = setInterval(() => {
+        if (noreg) {
+          axios.get(`/api/check?noreg=${noreg}`).then((res) => {
+            if (mealtime === "Breakfast" && res.data.breakfast) {
+              latestBorder = "border-udine-7";
+              latestShadow = "shadow-udine-7";
+            } else if (mealtime === "Lunch" && res.data.lunch) {
+              latestBorder = "border-udine-7";
+              latestShadow = "shadow-udine-7";
+            } else if (mealtime === "Dinner" && res.data.dinner) {
+              latestBorder = "border-udine-7";
+              latestShadow = "shadow-udine-7";
+            }
+            setBorder(latestBorder);
+            setShadow(latestShadow);
+          });
+        }
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+    return () => {};
+  }, [noreg, mealtime, border, shadow]);
+
   return (
     <Protected>
       <Header label="Profile" hasBack={false} />
@@ -59,7 +102,7 @@ export default function profilePage() {
                     </div>
                   ) : (
                     <QRCode
-                      value={noreg}
+                      value={`${noreg},${getDate()},${mealtime?.toLowerCase()}`}
                       size={200}
                       bgColor="#FFFFFF"
                       fgColor="#000000"

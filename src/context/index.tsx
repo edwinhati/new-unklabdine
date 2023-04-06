@@ -8,7 +8,18 @@ import {
 import { auth } from "@/config";
 import axios from "axios";
 
-export const UserContext = createContext({
+type UserContextState = {
+  user: any;
+  loading: boolean;
+  responseStatus: any;
+  mealtime: any;
+  setMealtime: any;
+  noreg: any;
+  residence: any;
+  // checkStatus: any;
+};
+
+export const UserContext = createContext<UserContextState>({
   user: null,
   loading: true,
   responseStatus: null,
@@ -16,8 +27,8 @@ export const UserContext = createContext({
   setMealtime: () => {},
   noreg: null,
   residence: null,
-} as { user: any; loading: boolean; responseStatus: any; setMealtime: any; mealtime: any; noreg: any; residence: any });
-
+  // checkStatus: null,
+});
 export function useUser() {
   return useContext(UserContext);
 }
@@ -29,6 +40,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [mealtime, setMealtime] = useState(null);
   const [noreg, setNoreg] = useState(null);
   const [residence, setResidence] = useState(null);
+  // const [checkStatus, setCheckStatus] = useState(null);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((result: any) => {
@@ -40,6 +52,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (user) {
+      setNoreg(user.email.split("@")[0]);
       axios
         .get(`/api/response/status?noreg=${user.email.split("@")[0]}`)
         .then((res) => {
@@ -48,12 +61,14 @@ export function UserProvider({ children }: { children: ReactNode }) {
         .catch((error) => {
           console.error(error);
         });
-      setNoreg(user.email.split("@")[0]);
       axios
         .get(`/api/residence?noreg=${user.email.split("@")[0]}`)
         .then((res) => {
-          setResidence(res.data.residence);
+          setResidence(res.data?.residence ?? null);
         });
+      // axios.get(`/api/check?noreg=${user.email.split("@")[0]}`).then((res) => {
+      //   setCheckStatus(res.data ?? null);
+      // });
     }
   }, [user]);
 
@@ -67,6 +82,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         mealtime,
         noreg,
         residence,
+        // checkStatus,
       }}
     >
       {children}

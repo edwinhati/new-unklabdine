@@ -36,7 +36,7 @@ export default function HomePage() {
           title="Weekly"
           subtitle="Overall Rating"
           data={rating}
-          withCta={mealtime !== "undefined" ? true : false}
+          withCta={mealtime ? true : false}
         />
         {user ? null : <SignInCard />}
         {loading ? (

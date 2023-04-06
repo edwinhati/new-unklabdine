@@ -59,7 +59,7 @@ function getMealtime() {
   if (time > 15 && time < 22) {
     return "Dinner";
   }
-  return "undefined";
+  return undefined;
 }
 
 export const mealtime = getMealtime();

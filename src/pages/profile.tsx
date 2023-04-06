@@ -13,7 +13,7 @@ import avatar from "@/assets/images/avatar.png";
 import Protected from "@/guard";
 
 export default function profilePage() {
-  const { user, loading } = useUser();
+  const { user, loading, residence } = useUser();
   const [name, setName] = useState("");
   const [photo, setPhoto] = useState(null);
   const [noreg, setNoreg] = useState("");
@@ -47,7 +47,7 @@ export default function profilePage() {
               <h1 className="font-bold text-[18px] text-[#2D2D2D] text-center">
                 {name}
               </h1>
-              <h1 className="font text-[16px] text-[#2D2D2D]">Residence</h1>
+              <h1 className="font text-[16px] text-[#2D2D2D]">{residence}</h1>
             </div>
             <div className="w-[200px] h-[200px] bg-udine-1 mt-[20px]">
               <div className="flex flex-col justify-center items-center">

@@ -15,7 +15,8 @@ export const UserContext = createContext({
   mealtime: null,
   setMealtime: () => {},
   noreg: null,
-} as { user: any; loading: boolean; responseStatus: any; setMealtime: any; mealtime: any; noreg: any });
+  residence: null,
+} as { user: any; loading: boolean; responseStatus: any; setMealtime: any; mealtime: any; noreg: any; residence: any });
 
 export function useUser() {
   return useContext(UserContext);
@@ -27,6 +28,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [responseStatus, setResponseStatus] = useState(null);
   const [mealtime, setMealtime] = useState(null);
   const [noreg, setNoreg] = useState(null);
+  const [residence, setResidence] = useState(null);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((result: any) => {
@@ -47,12 +49,25 @@ export function UserProvider({ children }: { children: ReactNode }) {
           console.error(error);
         });
       setNoreg(user.email.split("@")[0]);
+      axios
+        .get(`/api/residence?noreg=${user.email.split("@")[0]}`)
+        .then((res) => {
+          setResidence(res.data.residence);
+        });
     }
   }, [user]);
 
   return (
     <UserContext.Provider
-      value={{ user, loading, responseStatus, setMealtime, mealtime, noreg }}
+      value={{
+        user,
+        loading,
+        responseStatus,
+        setMealtime,
+        mealtime,
+        noreg,
+        residence,
+      }}
     >
       {children}
     </UserContext.Provider>

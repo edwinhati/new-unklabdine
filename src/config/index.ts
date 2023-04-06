@@ -7,6 +7,7 @@ import {
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -64,14 +65,4 @@ function getMealtime() {
 export const mealtime = getMealtime();
 
 export const storage = getStorage(app);
-// const images = ref(storage, "images");
-
-// export const uploadImage = async (file, mealtime) => {
-//   const image = ref(images, `${regnum}_${date}_${mealtime}`);
-//   uploadBytes(image, file);
-//   let url = "";
-//   await getDownloadURL(image).then((downloadURL) => {
-//     url = downloadURL;
-//   });
-//   return url;
-// };
+export const rtdb = getDatabase(app);

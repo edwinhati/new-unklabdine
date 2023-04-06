@@ -6,6 +6,7 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -34,6 +35,7 @@ export async function signInWithGoogle() {
 
 export async function signOut() {
   await auth.signOut();
+  localStorage.removeItem("photoURL");
 }
 
 export const firestore = getFirestore(app);
@@ -60,3 +62,16 @@ function getMealtime() {
 }
 
 export const mealtime = getMealtime();
+
+export const storage = getStorage(app);
+// const images = ref(storage, "images");
+
+// export const uploadImage = async (file, mealtime) => {
+//   const image = ref(images, `${regnum}_${date}_${mealtime}`);
+//   uploadBytes(image, file);
+//   let url = "";
+//   await getDownloadURL(image).then((downloadURL) => {
+//     url = downloadURL;
+//   });
+//   return url;
+// };

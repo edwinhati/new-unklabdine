@@ -14,7 +14,8 @@ export const UserContext = createContext({
   responseStatus: null,
   mealtime: null,
   setMealtime: () => {},
-} as { user: any; loading: boolean; responseStatus: any, setMealtime: any, mealtime: any });
+  noreg: null,
+} as { user: any; loading: boolean; responseStatus: any; setMealtime: any; mealtime: any; noreg: any });
 
 export function useUser() {
   return useContext(UserContext);
@@ -25,6 +26,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [responseStatus, setResponseStatus] = useState(null);
   const [mealtime, setMealtime] = useState(null);
+  const [noreg, setNoreg] = useState(null);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((result: any) => {
@@ -44,11 +46,14 @@ export function UserProvider({ children }: { children: ReactNode }) {
         .catch((error) => {
           console.error(error);
         });
+      setNoreg(user.email.split("@")[0]);
     }
   }, [user]);
 
   return (
-    <UserContext.Provider value={{ user, loading, responseStatus, setMealtime, mealtime }}>
+    <UserContext.Provider
+      value={{ user, loading, responseStatus, setMealtime, mealtime, noreg }}
+    >
       {children}
     </UserContext.Provider>
   );

@@ -1,20 +1,25 @@
 import { useState } from "react";
 
-export default function Rating(props: { value: any; setRating: any, size?: number }) {
-  const {value, size} = props;
+export default function Rating(props: {
+  value: any;
+  setRating: any;
+  size?: number;
+}) {
+  const { value, size } = props;
   const [hover, setHover] = useState<number | null>(null);
 
   const isReadonly = props.setRating === "readonly";
 
   return (
-      <div className="flex">
-        {[...Array(5)].map((star, i) => {
-          const ratingValue: number = i + 1;
-          return (
-            <label key={i}>
-              {isReadonly ? (
-                Star(100 * (value - ratingValue + 1))
-              ) : (
+    <div className="flex">
+      {[...Array(5)].map((star, i) => {
+        const ratingValue: number = i + 1;
+        return (
+          <label key={i}>
+            {isReadonly ? (
+              Star(100 * (value - ratingValue + 1))
+            ) : (
+              <>
                 <i
                   className={`fa-solid fa-star text-${
                     ratingValue <= (hover || value) ? "udine-1" : "gray-400"
@@ -23,11 +28,12 @@ export default function Rating(props: { value: any; setRating: any, size?: numbe
                   onMouseLeave={() => setHover(null)}
                   onClick={() => props.setRating(ratingValue)}
                 />
-              )}
-            </label>
-          );
-        })}
-      </div>
+              </>
+            )}
+          </label>
+        );
+      })}
+    </div>
   );
 }
 function Star(percentage: number) {

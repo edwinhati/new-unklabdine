@@ -46,44 +46,68 @@ export default function RatingCard({
       </div>
       <div className="flex gap-2">
         <div className="flex-1 flex flex-col justify-center items-center">
-          <span className="text-[60px] font-bold leading-none">
-            {loading ? (
-              <i className="fa-solid fa-spinner text-3xl text-udine-1 animate-spin mb-3" />
-            ) : (
-              averageRating
-            )}
-          </span>
-          <Rating value={averageRating} setRating="readonly" />
-          {renderRatingInfo()}
+          {loading ? (
+            <i className="fa-solid fa-spinner text-3xl text-udine-1 animate-spin mb-3" />
+          ) : (
+            <>
+              {data && data.length > 0 ? (
+                <>
+                  <span className="text-[60px] font-bold leading-none">
+                    {averageRating}
+                  </span>
+                  <Rating
+                    value={averageRating}
+                    setRating="readonly"
+                    size={19}
+                  />
+                  {renderRatingInfo()}
+                </>
+              ) : (
+                <>
+                  <span className="text-[35px] font-bold leading-none">
+                    No Data
+                  </span>
+                  <Rating
+                    value={averageRating}
+                    setRating="readonly"
+                    size={20}
+                  />
+                </>
+              )}
+            </>
+          )}
         </div>
-        <div className="flex-1 flex flex-col justify-center w-full mr-[10px]">
-          {[5, 4, 3, 2, 1].map((ratingValue) => (
-            <div
-              key={ratingValue}
-              className="flex justify-center items-center w-full"
-            >
-              <span className="text-[11px] font-medium mr-2">
-                {ratingValue}
-              </span>
-              <div className="w-full">
-                <ProgressBar
-                  completed={
-                    data
-                      ? ((data.food[ratingValue] +
-                          data.service[ratingValue] +
-                          data.environment[ratingValue]) /
-                          data.length) *
-                        100
-                      : 0
-                  }
-                  bgColor="#FF9345"
-                  height="5px"
-                  isLabelVisible={false}
-                />
+
+        {data && data.length > 0 ? (
+          <div className="flex-1 flex flex-col justify-center w-full mr-[10px]">
+            {[5, 4, 3, 2, 1].map((ratingValue) => (
+              <div
+                key={ratingValue}
+                className="flex justify-center items-center w-full"
+              >
+                <span className="text-[11px] font-medium mr-2">
+                  {ratingValue}
+                </span>
+                <div className="w-full">
+                  <ProgressBar
+                    completed={
+                      data
+                        ? ((data.food[ratingValue] +
+                            data.service[ratingValue] +
+                            data.environment[ratingValue]) /
+                            data.length) *
+                          100
+                        : 0
+                    }
+                    bgColor="#FF9345"
+                    height="5px"
+                    isLabelVisible={false}
+                  />
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : null}
       </div>
       {!ignore && withCta ? (
         <div className="flex justify-center mt-4">

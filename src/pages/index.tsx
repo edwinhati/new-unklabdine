@@ -44,31 +44,35 @@ export default function HomePage() {
           }
         />
         {user ? null : <SignInCard />}
-        {loading ? (
-          <div className="flex justify-center items-start h-full">
-            <i className="fa-solid fa-spinner text-3xl text-udine-1 animate-spin" />
-          </div>
-        ) : (
+        {user ? (
           <>
-            {posts.map((post: any, index: any) => (
-              <RatingPost
-                // hasImage={post.image ? true : false}
-                hasImage={false}
-                name={post.name}
-                comment={post.comment}
-                environment={post.environment}
-                service={post.service}
-                food={post.food}
-                mealtime={post.mealtime}
-                isAnonymous={post.isAnonymous}
-                photo={post.photo}
-                time={post.createdAt}
-                // image={post.image}
-                key={index}
-              />
-            ))}
+            {loading ? (
+              <div className="flex justify-center items-start h-full">
+                <i className="fa-solid fa-spinner text-3xl text-udine-1 animate-spin" />
+              </div>
+            ) : (
+              <>
+                {posts.map((post: any, index: any) => (
+                  <RatingPost
+                    // hasImage={post.image ? true : false}
+                    hasImage={false}
+                    name={post.name}
+                    comment={post.comment}
+                    environment={post.environment}
+                    service={post.service}
+                    food={post.food}
+                    mealtime={post.mealtime}
+                    isAnonymous={post.isAnonymous}
+                    photo={post.photo}
+                    time={post.createdAt}
+                    // image={post.image}
+                    key={index}
+                  />
+                ))}
+              </>
+            )}
           </>
-        )}
+        ) : null}
       </div>
       <Navigation />
     </>

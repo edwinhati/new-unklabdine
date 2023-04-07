@@ -41,7 +41,7 @@ function Star(percentage: number, size: number) {
   const secondStarClipPath = `polygon(${percentage}% 0, 100% 0, 100% 100%, ${percentage}% 100%)`;
 
   return (
-    <div className={`flex flex-row ${size < 19 ? "gap-[3px]" : null}`}>
+    <div className={`flex flex-row ${size < 20 ? "gap-[3px]" : null}`}>
       <i
         className={`fa-solid fa-star text-udine-1 text-[${size}px] mt-1`}
         style={{ clipPath: firstStarClipPath, backgroundColor: "transparent" }}

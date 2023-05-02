@@ -49,16 +49,21 @@ export const today = new Date().toLocaleDateString("en-US", {
 });
 
 function getMealtime() {
-  const time = new Date().getUTCHours() + 8;
-  if (time >= 1 && time < 10) {
+  const localTime = new Date().toLocaleString("en-US", {
+    timeZone: "Asia/Singapore",
+  });
+  const hour = parseInt(localTime.split(", ")[1].substring(0, 2));
+
+  if (hour >= 1 && hour < 10) {
     return "Breakfast";
   }
-  if (time >= 10 && time < 15) {
+  if (hour >= 10 && hour < 15) {
     return "Lunch";
   }
-  if (time >= 15 && time < 22) {
+  if (hour >= 15 && hour < 22) {
     return "Dinner";
   }
+
   return undefined;
 }
 

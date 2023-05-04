@@ -49,11 +49,11 @@ export const today = new Date().toLocaleDateString("en-US", {
 });
 
 function getMealtime() {
-  const localTime = new Date().toLocaleString("en-US", {
-    timeZone: "Asia/Singapore",
+  const time = new Date().toLocaleTimeString("en-US", {
+    hour12: false,
+    hour: "numeric",
   });
-  const hour = parseInt(localTime.split(", ")[1].substring(0, 2));
-
+  const hour = parseInt(time, 10);
   if (hour >= 1 && hour < 10) {
     return "Breakfast";
   }

@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import { google } from "googleapis";
+import { google, oauth2_v2 } from "googleapis";
 
 export default async function handler(
   req: NextApiRequest,
@@ -19,7 +19,7 @@ async function getData() {
   });
 
   const client = await auth.getClient();
-  const googleSheets = google.sheets({ version: "v4", auth: client });
+  const googleSheets = google.sheets({ version: "v4", auth: client as any });
   const datas = await googleSheets.spreadsheets.values.get({
     auth,
     spreadsheetId: "1vA3poYOz6VOedw8wUglXujWjFSThkljnoRgPEHObSv0",
